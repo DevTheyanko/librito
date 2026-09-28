@@ -177,8 +177,8 @@
         <div class="h-full w-full bg-gradient-to-r from-black/15 via-black/5 to-black/15"></div>
       </div>
 
-      <!-- PÁGINA IZQUIERDA -->
-      <div id="page-left" class="hidden md:flex flex-1 flex-col justify-between p-8 lg:p-12 border-r border-stone-300/40 relative overflow-hidden spine-shadow-right select-text">
+<!-- PÁGINA IZQUIERDA (FORZADA EN MÓVIL) -->
+<div id="page-left" class="flex flex-1 flex-col justify-between p-3 sm:p-8 lg:p-12 border-r border-stone-300/40 relative overflow-hidden spine-shadow-right select-text">
         <header class="flex justify-between items-center text-xs text-stone-400 border-b border-stone-200/50 pb-2 mb-4">
           <span class="font-sans font-medium uppercase tracking-wider text-[10px]">Manual de Mantenimiento Aeronáutico</span>
           <span id="section-title-left" class="truncate max-w-[200px]">Sección 3</span>
@@ -334,7 +334,7 @@ Tipos principales de corrosión y sus ejemplos:
 - Daño que ocasiona: Si se trata a tiempo (removiendo mecánicamente y aplicando convertidores/primarios protectores), no causa daños estructurales significativos; si se ignora, evoluciona a picaduras profundas.
 
 2. Corrosión por Picaduras (Pitting Corrosion):
-- Qué es: Es el ataque localizado que perfora el metal hacia adentro, formando pequeños agujeros o cavidades (pits).
+- Qué es: Es el ataque localizado que perfora el metal hacia adentro, forming pequeños agujeros o cavidades (pits).
 - Ejemplo: Se presenta comúnmente en superficies de aluminio sin pintar o donde la capa protectora de anodizado se ha rayado, acumulando gotas de agua con sal.
 - Daño que ocasiona: Crea "concentradores de esfuerzos" (puntos donde se concentra la fuerza estructural), debilitando la pieza y pudiendo generar microfisuras por fatiga bajo cargas de vuelo.
 
@@ -563,7 +563,7 @@ Métodos principales:
           
           let formattedP = formatParagraph(paragraph);
           
-          // Si la página se sobrecarga de caracteres (~750 chars por página virtual)
+          // Si la página se sobrecarga de caracteres (~850 chars por página virtual)
           if (charCount + formattedP.length > 850 && charCount > 200) {
             pages.push({ title: sec.title, html: pageHTML });
             pageHTML = `<h3 class="text-xs font-semibold uppercase tracking-wider text-stone-400 mb-2">${sec.title} (Cont.)</h3>`;

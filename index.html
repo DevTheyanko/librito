@@ -3,18 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manual de Mantenimiento Aeronáutico - Libro Virtual</title>
+  <title>Manual de Mantenimiento Aeronáutico</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Open+Dyslexic&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
@@ -22,22 +19,7 @@
         extend: {
           fontFamily: {
             serif: ['Merriweather', 'serif'],
-            classic: ['Charis SIL', 'serif'],
             sans: ['Inter', 'sans-serif'],
-            dyslexic: ['OpenDyslexic', 'sans-serif'],
-          },
-          colors: {
-            book: {
-              paper: '#FDFBF7',
-              paperDark: '#1E1E1E',
-              sepia: '#F4ECD8',
-              sepiaDark: '#433422',
-              ink: '#2C2A29',
-              inkLight: '#E2E8F0',
-              sepiaInk: '#3E2723',
-              accent: '#8B263E',
-              gold: '#C5A059'
-            }
           }
         }
       }
@@ -45,264 +27,152 @@
   </script>
 
   <style>
-    /* Estilos de transición de páginas */
-    .page-turn {
-      transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
-      transform-origin: left center;
-    }
-    
     .shadow-book {
-      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
     }
-    
-    .spine-shadow {
-      background: linear-gradient(to right, 
-        rgba(0,0,0,0.18) 0%, 
-        rgba(0,0,0,0.08) 3%, 
-        rgba(0,0,0,0.01) 8%, 
-        rgba(0,0,0,0) 100%);
-    }
-
-    .spine-shadow-right {
-      background: linear-gradient(to left, 
-        rgba(0,0,0,0.18) 0%, 
-        rgba(0,0,0,0.08) 3%, 
-        rgba(0,0,0,0.01) 8%, 
-        rgba(0,0,0,0) 100%);
-    }
-
-    /* Scrollbars finos para modales */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(150, 150, 150, 0.3);
-      border-radius: 3px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(150, 150, 150, 0.5);
-    }
-
     .highlight-search {
       background-color: #fef08a;
       color: #000;
       padding: 0 2px;
       border-radius: 2px;
     }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.1);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(150, 150, 150, 0.4);
+      border-radius: 3px;
+    }
   </style>
 </head>
-<body class="bg-stone-900 text-stone-100 font-sans min-h-screen flex flex-col justify-between overflow-x-hidden select-none">
+<body class="bg-stone-900 text-stone-100 font-sans min-h-screen flex flex-col justify-between select-none">
 
-  <!-- BARRA SUPERIOR DE CONTROL -->
-  <header class="bg-stone-950 border-b border-stone-800 px-4 py-2.5 flex items-center justify-between text-sm z-30 shadow-md">
-    <div class="flex items-center space-x-3">
-      <div class="bg-amber-600/20 p-2 rounded-lg border border-amber-600/30 text-amber-500">
-        <i data-lucide="plane"></i>
-      </div>
-      <div>
-        <h1 class="font-bold text-stone-200 leading-none">Manual Virtual de Mantenimiento</h1>
-        <p class="text-xs text-stone-400 mt-0.5">Sistemas y Estructuras de Aeronaves</p>
-      </div>
-    </div>
-
-    <!-- Controles centrales de lectura -->
-    <div class="hidden md:flex items-center space-x-1 bg-stone-900 border border-stone-800 rounded-lg p-1">
-      <!-- Tamaño de letra -->
-      <button id="btn-font-decrease" title="Reducir fuente" class="p-1.5 hover:bg-stone-800 rounded text-stone-300 transition">
-        <i data-lucide="minus" class="w-4 h-4"></i>
-      </button>
-      <span id="font-size-indicator" class="text-xs px-2 text-stone-400 font-mono">100%</span>
-      <button id="btn-font-increase" title="Aumentar fuente" class="p-1.5 hover:bg-stone-800 rounded text-stone-300 transition">
-        <i data-lucide="plus" class="w-4 h-4"></i>
-      </button>
-
-      <div class="w-px h-4 bg-stone-800 mx-1"></div>
-
-      <!-- Tipografía -->
-      <select id="select-font-family" class="bg-transparent text-xs text-stone-300 focus:outline-none cursor-pointer px-1">
-        <option value="serif" class="bg-stone-900 text-stone-200">Merriweather (Serif)</option>
-        <option value="classic" class="bg-stone-900 text-stone-200">Charis SIL (Clásico)</option>
-        <option value="sans" class="bg-stone-900 text-stone-200">Inter (Sans)</option>
-        <option value="dyslexic" class="bg-stone-900 text-stone-200">OpenDyslexic</option>
-      </select>
-
-      <div class="w-px h-4 bg-stone-800 mx-1"></div>
-
-      <!-- Temas de Color -->
-      <div class="flex items-center space-x-1 pl-1">
-        <button data-theme="paper" title="Modo Papel" class="theme-btn w-5 h-5 rounded-full bg-[#FDFBF7] border border-stone-400 focus:ring-2 ring-amber-500"></button>
-        <button data-theme="sepia" title="Modo Sepia" class="theme-btn w-5 h-5 rounded-full bg-[#F4ECD8] border border-amber-800 focus:ring-2 ring-amber-500"></button>
-        <button data-theme="dark" title="Modo Oscuro" class="theme-btn w-5 h-5 rounded-full bg-[#1E1E1E] border border-stone-600 focus:ring-2 ring-amber-500"></button>
-      </div>
-    </div>
-
-    <!-- Botones de Acción Derecha -->
+  <!-- ENCABEZADO Y CONTROLES -->
+  <header class="bg-stone-950 border-b border-stone-800 px-4 py-3 flex flex-wrap items-center justify-between gap-2 z-30">
     <div class="flex items-center space-x-2">
-      <button id="btn-toc" class="flex items-center space-x-1 bg-stone-800 hover:bg-stone-700 text-stone-200 px-3 py-1.5 rounded-lg text-xs font-medium transition border border-stone-700">
-        <i data-lucide="list" class="w-4 h-4"></i>
-        <span class="hidden sm:inline">Índice</span>
+      <span class="text-amber-500 text-xl">✈️</span>
+      <div>
+        <h1 class="font-bold text-stone-200 text-sm sm:text-base leading-none">Manual Virtual Aeronáutico</h1>
+        <p class="text-[11px] text-stone-400 mt-0.5">Mantenimiento y Sistemas</p>
+      </div>
+    </div>
+
+    <!-- Controles rápidos -->
+    <div class="flex items-center space-x-2">
+      <button id="btn-toc" class="bg-stone-800 hover:bg-stone-700 text-stone-200 px-3 py-1.5 rounded-lg text-xs font-medium border border-stone-700">
+        📋 Índice
       </button>
-      <button id="btn-search-toggle" class="flex items-center space-x-1 bg-stone-800 hover:bg-stone-700 text-stone-200 p-1.5 sm:px-3 sm:py-1.5 rounded-lg text-xs font-medium transition border border-stone-700">
-        <i data-lucide="search" class="w-4 h-4"></i>
-        <span class="hidden sm:inline">Buscar</span>
+      <button id="btn-search-toggle" class="bg-stone-800 hover:bg-stone-700 text-stone-200 px-3 py-1.5 rounded-lg text-xs font-medium border border-stone-700">
+        🔍 Buscar
       </button>
-      <button id="btn-open-modal" class="flex items-center space-x-1 bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition shadow">
-        <i data-lucide="edit-3" class="w-4 h-4"></i>
-        <span class="hidden sm:inline">Cambiar / Pegar Texto</span>
+      <button id="btn-open-modal" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-lg text-xs font-medium shadow">
+        ✏️ Cambiar Texto
       </button>
     </div>
   </header>
 
-  <!-- BARRA BÚSQUEDA FLOTANTE -->
-  <div id="search-bar" class="hidden bg-stone-900 border-b border-stone-800 px-4 py-2 flex items-center justify-between text-xs z-20">
-    <div class="flex items-center space-x-2 flex-1 max-w-xl mx-auto">
-      <i data-lucide="search" class="w-4 h-4 text-stone-400"></i>
-      <input type="text" id="search-input" placeholder="Buscar en la investigación (ej. corrosión, remaches, combustible)..." class="bg-stone-950 text-stone-200 px-3 py-1.5 rounded-md border border-stone-800 focus:outline-none focus:border-amber-600 flex-1">
+  <!-- BARRA BÚSQUEDA -->
+  <div id="search-bar" class="hidden bg-stone-900 border-b border-stone-800 px-4 py-2 flex items-center justify-between text-xs">
+    <div class="flex items-center space-x-2 flex-1 max-w-md mx-auto">
+      <input type="text" id="search-input" placeholder="Buscar en el texto (ej. corrosión, motor)..." class="bg-stone-950 text-stone-200 px-3 py-1.5 rounded-md border border-stone-800 focus:outline-none focus:border-amber-600 flex-1">
       <span id="search-count" class="text-stone-400 text-xs">0 resultados</span>
     </div>
   </div>
 
-  <!-- CONTENEDOR PRINCIPAL DEL LIBRO -->
-  <main class="flex-1 flex items-center justify-center p-2 sm:p-6 lg:p-10 relative overflow-hidden">
+  <!-- CONTENEDOR DE PÁGINA ÚNICA / LIBRO -->
+  <main class="flex-1 flex items-center justify-center p-3 sm:p-6 lg:p-8 relative">
     
-    <!-- LIBRO VIRTUAL -->
-    <div id="book-container" class="relative w-full max-w-6xl h-[78vh] min-h-[500px] flex rounded-lg shadow-book transition-all duration-300 font-serif bg-[#FDFBF7] text-[#2C2A29]">
+    <!-- TARJETA DE PÁGINA (1 página limpia en móvil, vista doble en escritorio opcional) -->
+    <div id="book-container" class="relative w-full max-w-4xl h-[75vh] min-h-[450px] flex rounded-xl shadow-book bg-[#FDFBF7] text-[#2C2A29] font-serif overflow-hidden">
       
-      <!-- Lomo Central (Efecto Libro) -->
-      <div class="absolute inset-y-0 left-1/2 -translate-x-1/2 w-8 z-10 pointer-events-none hidden md:block">
-        <div class="h-full w-full bg-gradient-to-r from-black/15 via-black/5 to-black/15"></div>
-      </div>
-
-<!-- PÁGINA IZQUIERDA (FORZADA EN MÓVIL) -->
-<div id="page-left" class="flex flex-1 flex-col justify-between p-3 sm:p-8 lg:p-12 border-r border-stone-300/40 relative overflow-hidden spine-shadow-right select-text">
-        <header class="flex justify-between items-center text-xs text-stone-400 border-b border-stone-200/50 pb-2 mb-4">
-          <span class="font-sans font-medium uppercase tracking-wider text-[10px]">Manual de Mantenimiento Aeronáutico</span>
-          <span id="section-title-left" class="truncate max-w-[200px]">Sección 3</span>
+      <!-- PÁGINA ÚNICA (MÓVIL Y ESCRITORIO) -->
+      <div class="flex-1 flex flex-col justify-between p-5 sm:p-10 relative overflow-hidden select-text">
+        
+        <!-- Header de la página -->
+        <header class="flex justify-between items-center text-xs text-stone-400 border-b border-stone-300/60 pb-2 mb-3">
+          <span class="font-sans font-semibold text-[11px] uppercase tracking-wider text-amber-800">Mantenimiento Aeronáutico</span>
+          <span id="section-title" class="truncate max-w-[180px]">Sección</span>
         </header>
         
-        <div id="content-left" class="flex-1 overflow-y-auto leading-relaxed pr-2 text-justify">
-          <!-- Contenido dinámico -->
+        <!-- Contenido principal -->
+        <div id="content-area" class="flex-1 overflow-y-auto leading-relaxed pr-1 text-justify">
+          <!-- El contenido se inyecta dinámicamente aquí -->
         </div>
 
-        <footer class="flex justify-between items-center text-xs text-stone-400 pt-3 border-t border-stone-200/50 mt-4 font-sans">
-          <span id="page-num-left">Pág. 1</span>
-          <span class="text-[10px]">Investigación Técnica</span>
+        <!-- Footer de la página -->
+        <footer class="flex justify-between items-center text-xs text-stone-400 pt-3 border-t border-stone-300/60 mt-3 font-sans">
+          <span id="reading-time" class="text-[11px]">~3 min lectura</span>
+          <span id="page-num" class="font-bold text-stone-600">Pág. 1</span>
         </footer>
-      </div>
 
-      <!-- PÁGINA DERECHA (O ÚNICA EN MÓVILES) -->
-      <div id="page-right" class="flex-1 flex flex-col justify-between p-6 sm:p-8 lg:p-12 relative overflow-hidden spine-shadow select-text">
-        <header class="flex justify-between items-center text-xs text-stone-400 border-b border-stone-200/50 pb-2 mb-4">
-          <span id="section-title-right" class="truncate max-w-[200px]">Generalidades</span>
-          <span class="font-sans font-medium uppercase tracking-wider text-[10px] hidden sm:inline">Mantenimiento de Aeronaves</span>
-        </header>
-
-        <div id="content-right" class="flex-1 overflow-y-auto leading-relaxed pr-2 text-justify">
-          <!-- Contenido dinámico -->
-        </div>
-
-        <footer class="flex justify-between items-center text-xs text-stone-400 pt-3 border-t border-stone-200/50 mt-4 font-sans">
-          <span id="reading-time" class="text-[10px]">~3 min lectura</span>
-          <span id="page-num-right">Pág. 2</span>
-        </footer>
       </div>
 
     </div>
 
-    <!-- Botón Navegación Izquierda -->
-    <button id="btn-prev-page" class="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 bg-stone-900/80 hover:bg-stone-800 text-white p-3 rounded-full border border-stone-700/80 shadow-xl backdrop-blur transition hover:scale-110 z-20">
-      <i data-lucide="chevron-left" class="w-6 h-6"></i>
+    <!-- Botón Anterior -->
+    <button id="btn-prev-page" class="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 bg-stone-950/80 hover:bg-stone-800 text-white p-2.5 sm:p-3 rounded-full border border-stone-700 shadow-lg backdrop-blur transition z-20">
+      ◀
     </button>
 
-    <!-- Botón Navegación Derecha -->
-    <button id="btn-next-page" class="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 bg-stone-900/80 hover:bg-stone-800 text-white p-3 rounded-full border border-stone-700/80 shadow-xl backdrop-blur transition hover:scale-110 z-20">
-      <i data-lucide="chevron-right" class="w-6 h-6"></i>
+    <!-- Botón Siguiente -->
+    <button id="btn-next-page" class="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 bg-stone-950/80 hover:bg-stone-800 text-white p-2.5 sm:p-3 rounded-full border border-stone-700 shadow-lg backdrop-blur transition z-20">
+      ▶
     </button>
 
   </main>
 
-  <!-- NAVEGACIÓN Y SLIDER INFERIOR -->
-  <footer class="bg-stone-950 border-t border-stone-800 px-4 py-2.5 flex flex-col sm:flex-row items-center justify-between text-xs space-y-2 sm:space-y-0 z-30">
-    <div class="flex items-center space-x-3 w-full sm:w-auto justify-between sm:justify-start">
-      <span id="page-indicator" class="font-mono text-stone-300 text-xs bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Páginas 1-2 de --</span>
-      <span id="total-words" class="text-stone-500 text-xs">0 palabras</span>
+  <!-- CONTROLES INFERIORES -->
+  <footer class="bg-stone-950 border-t border-stone-800 px-4 py-2.5 flex flex-col sm:flex-row items-center justify-between text-xs gap-2 z-30">
+    <div class="flex items-center space-x-3">
+      <span id="page-indicator" class="font-mono text-stone-300 bg-stone-900 px-2 py-1 rounded border border-stone-800">Página 1 de --</span>
+      <span id="total-words" class="text-stone-400">0 palabras</span>
     </div>
 
-    <!-- Barra Progreso / Slider de Paginas -->
-    <div class="flex items-center space-x-3 w-full sm:max-w-md px-2">
-      <span class="text-stone-500 text-[10px]">Inicio</span>
+    <!-- Slider de navegación rápida -->
+    <div class="flex items-center space-x-2 w-full sm:max-w-xs">
+      <span class="text-stone-500 text-[10px]">1</span>
       <input type="range" id="page-slider" min="1" max="1" value="1" class="w-full h-1 bg-stone-800 rounded-lg appearance-none cursor-pointer accent-amber-600">
-      <span class="text-stone-500 text-[10px]">Fin</span>
-    </div>
-
-    <div class="text-stone-500 text-[11px] hidden md:block">
-      Usa las <kbd class="px-1 py-0.5 bg-stone-900 border border-stone-700 rounded text-stone-300">←</kbd> <kbd class="px-1 py-0.5 bg-stone-900 border border-stone-700 rounded text-stone-300">→</kbd> del teclado
+      <span id="slider-max-text" class="text-stone-500 text-[10px]">--</span>
     </div>
   </footer>
 
-  <!-- MODAL DE TEXTO / PEGAR INVESTIGACIÓN -->
-  <div id="modal-text" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-stone-900 border border-stone-800 rounded-xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-      <div class="p-4 border-b border-stone-800 flex justify-between items-center bg-stone-950">
-        <div class="flex items-center space-x-2">
-          <i data-lucide="file-text" class="w-5 h-5 text-amber-500"></i>
-          <h2 class="text-base font-bold text-stone-200">Pegar / Cargar Investigación</h2>
-        </div>
-        <button id="btn-close-modal" class="text-stone-400 hover:text-white p-1 rounded-lg">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
+  <!-- MODAL CAMBIAR TEXTO -->
+  <div id="modal-text" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+    <div class="bg-stone-900 border border-stone-800 rounded-xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh]">
+      <div class="p-3 border-b border-stone-800 flex justify-between items-center bg-stone-950">
+        <h2 class="text-sm font-bold text-stone-200">Pegar o Editar Texto</h2>
+        <button id="btn-close-modal" class="text-stone-400 hover:text-white px-2">✕</button>
       </div>
-
-      <div class="p-4 flex-1 flex flex-col space-y-3 overflow-y-auto">
-        <p class="text-xs text-stone-400">
-          Pega tu documento o texto técnico aquí abajo. El sistema detectará automáticamente numerales o títulos (`3.3`, `3.4`, etc.) para estructurarlo como un libro interactivo.
-        </p>
-
-        <textarea id="input-text-area" class="w-full flex-1 min-h-[250px] bg-stone-950 border border-stone-800 rounded-lg p-3 text-stone-200 text-xs font-mono focus:outline-none focus:border-amber-600 leading-relaxed resize-none" placeholder="Pega aquí tu investigación..."></textarea>
-
-        <div class="flex items-center justify-between text-xs text-stone-400 pt-2 border-t border-stone-800">
-          <label class="flex items-center space-x-2 cursor-pointer">
-            <input type="checkbox" id="check-auto-split" checked class="rounded border-stone-700 bg-stone-950 text-amber-600 focus:ring-0">
-            <span>Dividir automáticamente por secciones detectadas</span>
-          </label>
-          <button id="btn-load-default" class="text-amber-500 hover:underline">Restaurar Texto Aeronáutico</button>
-        </div>
+      <div class="p-3 flex-1 flex flex-col space-y-2 overflow-y-auto">
+        <textarea id="input-text-area" class="w-full flex-1 min-h-[200px] bg-stone-950 border border-stone-800 rounded-lg p-3 text-stone-200 text-xs font-mono focus:outline-none focus:border-amber-600 resize-none"></textarea>
+        <button id="btn-load-default" class="text-amber-500 text-xs hover:underline text-left">Restaurar Texto Aeronáutico Predeterminado</button>
       </div>
-
-      <div class="p-4 border-t border-stone-800 bg-stone-950 flex justify-end space-x-2">
-        <button id="btn-cancel-text" class="px-4 py-2 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-medium transition">Cancelar</button>
-        <button id="btn-process-text" class="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-medium transition shadow">Generar Libro Virtual</button>
+      <div class="p-3 border-t border-stone-800 bg-stone-950 flex justify-end space-x-2">
+        <button id="btn-cancel-text" class="px-3 py-1.5 rounded-lg bg-stone-800 text-stone-300 text-xs">Cancelar</button>
+        <button id="btn-process-text" class="px-3 py-1.5 rounded-lg bg-amber-600 text-white text-xs font-medium">Actualizar Lectura</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL DE ÍNDICE / TABLA DE CONTENIDOS -->
-  <div id="modal-toc" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-stone-900 border border-stone-800 rounded-xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col max-h-[80vh]">
-      <div class="p-4 border-b border-stone-800 flex justify-between items-center bg-stone-950">
-        <div class="flex items-center space-x-2">
-          <i data-lucide="list" class="w-5 h-5 text-amber-500"></i>
-          <h2 class="text-base font-bold text-stone-200">Tabla de Contenidos</h2>
-        </div>
-        <button id="btn-close-toc" class="text-stone-400 hover:text-white p-1 rounded-lg">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
+  <!-- MODAL ÍNDICE -->
+  <div id="modal-toc" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+    <div class="bg-stone-900 border border-stone-800 rounded-xl w-full max-w-md overflow-hidden shadow-2xl flex flex-col max-h-[75vh]">
+      <div class="p-3 border-b border-stone-800 flex justify-between items-center bg-stone-950">
+        <h2 class="text-sm font-bold text-stone-200">Índice de Secciones</h2>
+        <button id="btn-close-toc" class="text-stone-400 hover:text-white px-2">✕</button>
       </div>
-
-      <div id="toc-list" class="p-4 flex-1 overflow-y-auto divide-y divide-stone-800">
+      <div id="toc-list" class="p-3 flex-1 overflow-y-auto divide-y divide-stone-800 text-xs">
         <!-- Ítems del índice -->
       </div>
     </div>
   </div>
 
-
-  <!-- SCRIPT DE LÓGICA Y CONTENIDO PRECARGADO -->
+  <!-- SCRIPT LÓGICO -->
   <script>
-    // CONTENIDO BASE INVESTIGACIÓN AERONÁUTICA
     const DEFAULT_TEXT = `3.3 Identifica etiquetado o simbología de seguridad y de diferentes servicios que posee la aeronave:
 Simbología y avisos: Calcomanías de advertencia de peligro (radioactividad en equipos de radar, zonas calientes de escape, áreas de peligro de hélices o turbinas).
 
@@ -334,7 +204,7 @@ Tipos principales de corrosión y sus ejemplos:
 - Daño que ocasiona: Si se trata a tiempo (removiendo mecánicamente y aplicando convertidores/primarios protectores), no causa daños estructurales significativos; si se ignora, evoluciona a picaduras profundas.
 
 2. Corrosión por Picaduras (Pitting Corrosion):
-- Qué es: Es el ataque localizado que perfora el metal hacia adentro, forming pequeños agujeros o cavidades (pits).
+- Qué es: Es el ataque localizado que perfora el metal hacia adentro, formando pequeños agujeros o cavidades (pits).
 - Ejemplo: Se presenta comúnmente en superficies de aluminio sin pintar o donde la capa protectora de anodizado se ha rayado, acumulando gotas de agua con sal.
 - Daño que ocasiona: Crea "concentradores de esfuerzos" (puntos donde se concentra la fuerza estructural), debilitando la pieza y pudiendo generar microfisuras por fatiga bajo cargas de vuelo.
 
@@ -456,374 +326,149 @@ Métodos principales:
 - Corrientes Eddy / Inducidas (ET): Para inspección de grietas superficiales y detección de corrosión oculta sin remover capas de pintura.
 - Ultrasonido (UT) y Radiografía (RT): Para inspección interna de estructuras y materiales compuestos buscando delaminaciones o fallas internas.`;
 
-    // ESTADO DE LA APLICACIÓN
-    let currentPageIndex = 0; // Índice de la página de la izquierda (0, 2, 4...)
+    let currentPage = 0;
     let pages = [];
     let toc = [];
-    let fontSize = 100;
-    let currentTheme = 'paper';
     let searchQuery = '';
 
-    // ELEMENTOS DOM
-    const bookContainer = document.getElementById('book-container');
-    const contentLeft = document.getElementById('content-left');
-    const contentRight = document.getElementById('content-right');
-    const pageNumLeft = document.getElementById('page-num-left');
-    const pageNumRight = document.getElementById('page-num-right');
-    const sectionTitleLeft = document.getElementById('section-title-left');
-    const sectionTitleRight = document.getElementById('section-title-right');
+    const contentArea = document.getElementById('content-area');
+    const pageNumEl = document.getElementById('page-num');
+    const sectionTitleEl = document.getElementById('section-title');
     const pageIndicator = document.getElementById('page-indicator');
     const pageSlider = document.getElementById('page-slider');
+    const sliderMaxText = document.getElementById('slider-max-text');
     const totalWordsEl = document.getElementById('total-words');
-    const readingTimeEl = document.getElementById('reading-time');
-    const fontSizeIndicator = document.getElementById('font-size-indicator');
-    const selectFontFamily = document.getElementById('select-font-family');
 
-    // BOTONES
     const btnPrev = document.getElementById('btn-prev-page');
     const btnNext = document.getElementById('btn-next-page');
-    const btnOpenModal = document.getElementById('btn-open-modal');
-    const btnCloseModal = document.getElementById('btn-close-modal');
-    const btnCancelText = document.getElementById('btn-cancel-text');
-    const btnProcessText = document.getElementById('btn-process-text');
-    const btnLoadDefault = document.getElementById('btn-load-default');
-    const modalText = document.getElementById('modal-text');
-    const inputTextArea = document.getElementById('input-text-area');
 
-    const btnToc = document.getElementById('btn-toc');
-    const btnCloseToc = document.getElementById('btn-close-toc');
-    const modalToc = document.getElementById('modal-toc');
-    const tocList = document.getElementById('toc-list');
-
-    const btnSearchToggle = document.getElementById('btn-search-toggle');
-    const searchBar = document.getElementById('search-bar');
-    const searchInput = document.getElementById('search-input');
-    const searchCount = document.getElementById('search-count');
-
-    // INICIALIZACIÓN
     window.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
-      processAndPaginateText(DEFAULT_TEXT);
-      setupEventListeners();
+      processText(DEFAULT_TEXT);
+      setupEvents();
     });
 
-    // PROCESAMIENTO Y PAGINACIÓN DEL TEXTO
-    function processAndPaginateText(rawText) {
-      // 1. Calcular palabras e índice
+    function processText(rawText) {
       const words = rawText.trim().split(/\s+/).filter(Boolean).length;
       totalWordsEl.textContent = `${words.toLocaleString()} palabras`;
-      
-      const minutes = Math.max(1, Math.ceil(words / 200));
-      readingTimeEl.textContent = `~${minutes} min lectura`;
 
-      // 2. Extraer Secciones / Títulos para TOC
       toc = [];
+      pages = [];
       const lines = rawText.split('\n');
-      let currentSection = 'Generalidades';
-
-      // Párrafos organizados
-      let sections = [];
-      let currentChunk = { title: 'Generalidades', content: [] };
+      
+      let currentTitle = "Generalidades";
+      let currentHTML = "";
 
       lines.forEach(line => {
         const trimmed = line.trim();
-        // Regex para detectar títulos tipo 3.3, 3.4 o que inicien con numerales
-        if (/^(?:\d+\.\d+|\d+\.)\s+/.test(trimmed) || (trimmed.startsWith('- 3.') || trimmed.startsWith('3.'))) {
-          if (currentChunk.content.length > 0) {
-            sections.push(currentChunk);
+        if (/^(?:\d+\.\d+|\d+\.)\s+/.test(trimmed)) {
+          if (currentHTML.trim().length > 0) {
+            pages.push({ title: currentTitle, html: currentHTML });
           }
-          let cleanTitle = trimmed.replace(/^-\s*/, '');
-          currentChunk = {
-            title: cleanTitle.length > 60 ? cleanTitle.substring(0, 57) + '...' : cleanTitle,
-            fullTitle: cleanTitle,
-            content: [trimmed]
-          };
-          toc.push({
-            title: cleanTitle,
-            sectionIndex: sections.length
-          });
-        } else {
-          if (trimmed.length > 0) {
-            currentChunk.content.push(trimmed);
+          currentTitle = trimmed;
+          toc.push({ title: currentTitle, pageIndex: pages.length });
+          currentHTML = `<h2 class="text-sm sm:text-base font-bold text-amber-800 mb-3 border-b border-stone-300 pb-1">${trimmed}</h2>`;
+        } else if (trimmed.length > 0) {
+          if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+            currentHTML += `<li class="ml-4 mb-2 text-xs sm:text-sm list-disc">${formatText(trimmed.substring(2))}</li>`;
+          } else {
+            currentHTML += `<p class="mb-3 text-xs sm:text-sm leading-relaxed">${formatText(trimmed)}</p>`;
           }
         }
       });
-      if (currentChunk.content.length > 0) {
-        sections.push(currentChunk);
+
+      if (currentHTML.trim().length > 0) {
+        pages.push({ title: currentTitle, html: currentHTML });
       }
 
-      // 3. Dividir en Páginas Físicas Virtuales
-      pages = [];
-      sections.forEach(sec => {
-        let pageHTML = `<h2 class="text-base font-bold text-amber-700 dark:text-amber-400 mb-3 border-b border-stone-300/40 pb-1">${sec.fullTitle}</h2>`;
-        let charCount = pageHTML.length;
-
-        sec.content.forEach((paragraph, idx) => {
-          if (idx === 0 && paragraph === sec.fullTitle) return; // Evitar duplicar título
-          
-          let formattedP = formatParagraph(paragraph);
-          
-          // Si la página se sobrecarga de caracteres (~850 chars por página virtual)
-          if (charCount + formattedP.length > 850 && charCount > 200) {
-            pages.push({ title: sec.title, html: pageHTML });
-            pageHTML = `<h3 class="text-xs font-semibold uppercase tracking-wider text-stone-400 mb-2">${sec.title} (Cont.)</h3>`;
-            charCount = pageHTML.length;
-          }
-
-          pageHTML += formattedP;
-          charCount += formattedP.length;
-        });
-
-        if (pageHTML.length > 0) {
-          pages.push({ title: sec.title, html: pageHTML });
-        }
-      });
-
-      if (pages.length === 0) {
-        pages = [{ title: 'Documento Vacío', html: '<p class="italic text-stone-400">No hay contenido para mostrar.</p>' }];
-      }
-
-      // Ajustar Slider
-      const totalSpread = Math.ceil(pages.length / 2);
-      pageSlider.max = Math.max(1, pages.length);
-      
-      currentPageIndex = 0;
-      renderPages();
+      pageSlider.max = pages.length;
+      sliderMaxText.textContent = pages.length;
+      currentPage = 0;
+      renderCurrentPage();
       buildTOC();
     }
 
-    // Formatear párrafos con listas y negritas
-    function formatParagraph(text) {
-      if (text.startsWith('- ') || text.startsWith('* ')) {
-        return `<li class="ml-4 mb-2 list-disc pl-1">${parseInlineStyles(text.substring(2))}</li>`;
+    function formatText(str) {
+      return str.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+    }
+
+    function renderCurrentPage() {
+      if (pages.length === 0) return;
+
+      const page = pages[currentPage];
+      let html = page.html;
+
+      if (searchQuery.trim().length > 2) {
+        const regex = new RegExp(`(${searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        html = html.replace(regex, '<mark class="highlight-search">$1</mark>');
       }
-      return `<p class="mb-3 text-xs sm:text-sm leading-relaxed">${parseInlineStyles(text)}</p>`;
+
+      contentArea.innerHTML = html;
+      pageNumEl.textContent = `Pág. ${currentPage + 1}`;
+      sectionTitleEl.textContent = page.title;
+      pageIndicator.textContent = `Página ${currentPage + 1} de ${pages.length}`;
+      pageSlider.value = currentPage + 1;
+
+      btnPrev.disabled = currentPage === 0;
+      btnPrev.style.opacity = currentPage === 0 ? "0.3" : "1";
+
+      btnNext.disabled = currentPage === pages.length - 1;
+      btnNext.style.opacity = currentPage === pages.length - 1 ? "0.3" : "1";
     }
 
-    function parseInlineStyles(str) {
-      // Convertir *texto* o **texto** a negritas
-      return str
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<strong class="font-semibold text-stone-900 dark:text-stone-100">$1</strong>')
-        .replace(/`([^`]+)`/g, '<code class="bg-stone-200/60 dark:bg-stone-800 px-1 py-0.5 rounded font-mono text-xs">$1</code>');
+    function buildTOC() {
+      const tocList = document.getElementById('toc-list');
+      tocList.innerHTML = '';
+      toc.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'py-2 px-1 hover:bg-stone-800 rounded cursor-pointer text-stone-300 hover:text-amber-400 truncate';
+        div.textContent = item.title;
+        div.onclick = () => {
+          currentPage = item.pageIndex;
+          renderCurrentPage();
+          document.getElementById('modal-toc').classList.add('hidden');
+        };
+        tocList.appendChild(div);
+      });
     }
 
-    // RENDERIZAR PÁGINAS ACTUALES EN PANTALLA
-    function renderPages() {
-      // Búsqueda resaltar
-      const highlight = (html) => {
-        if (!searchQuery.trim()) return html;
-        const regex = new RegExp(`(${escapeRegExp(searchQuery)})`, 'gi');
-        return html.replace(regex, '<mark class="highlight-search">$1</mark>');
+    function setupEvents() {
+      btnPrev.onclick = () => { if (currentPage > 0) { currentPage--; renderCurrentPage(); } };
+      btnNext.onclick = () => { if (currentPage < pages.length - 1) { currentPage++; renderCurrentPage(); } };
+
+      pageSlider.oninput = (e) => {
+        currentPage = parseInt(e.target.value) - 1;
+        renderCurrentPage();
       };
 
-      // Página Izquierda
-      if (currentPageIndex < pages.length) {
-        const pLeft = pages[currentPageIndex];
-        contentLeft.innerHTML = highlight(pLeft.html);
-        pageNumLeft.textContent = `Pág. ${currentPageIndex + 1}`;
-        sectionTitleLeft.textContent = pLeft.title;
-      } else {
-        contentLeft.innerHTML = '';
-        pageNumLeft.textContent = '';
-        sectionTitleLeft.textContent = '';
-      }
+      document.getElementById('btn-toc').onclick = () => document.getElementById('modal-toc').classList.remove('hidden');
+      document.getElementById('btn-close-toc').onclick = () => document.getElementById('modal-toc').classList.add('hidden');
 
-      // Página Derecha
-      const rightIdx = currentPageIndex + 1;
-      if (rightIdx < pages.length) {
-        const pRight = pages[rightIdx];
-        contentRight.innerHTML = highlight(pRight.html);
-        pageNumRight.textContent = `Pág. ${rightIdx + 1}`;
-        sectionTitleRight.textContent = pRight.title;
-        document.getElementById('page-right').classList.remove('hidden');
-      } else {
-        contentRight.innerHTML = `
-          <div class="h-full flex flex-col items-center justify-center text-stone-400 opacity-60">
-            <i data-lucide="book-open-check" class="w-12 h-12 mb-2 stroke-1"></i>
-            <p class="text-xs italic">Fin del Documento de Investigación</p>
-          </div>
-        `;
-        pageNumRight.textContent = '';
-        sectionTitleRight.textContent = 'Fin';
-      }
+      document.getElementById('btn-open-modal').onclick = () => {
+        document.getElementById('input-text-area').value = DEFAULT_TEXT;
+        document.getElementById('modal-text').classList.remove('hidden');
+      };
+      document.getElementById('btn-close-modal').onclick = () => document.getElementById('modal-text').classList.add('hidden');
+      document.getElementById('btn-cancel-text').onclick = () => document.getElementById('modal-text').classList.add('hidden');
+      document.getElementById('btn-load-default').onclick = () => document.getElementById('input-text-area').value = DEFAULT_TEXT;
 
-      // Indicadores
-      pageIndicator.textContent = `Páginas ${currentPageIndex + 1}-${Math.min(currentPageIndex + 2, pages.length)} de ${pages.length}`;
-      pageSlider.value = currentPageIndex + 1;
-
-      // Estado de botones
-      btnPrev.disabled = currentPageIndex === 0;
-      btnPrev.classList.toggle('opacity-30', currentPageIndex === 0);
-      btnPrev.classList.toggle('cursor-not-allowed', currentPageIndex === 0);
-
-      btnNext.disabled = currentPageIndex >= pages.length - 2;
-      btnNext.classList.toggle('opacity-30', currentPageIndex >= pages.length - 2);
-      btnNext.classList.toggle('cursor-not-allowed', currentPageIndex >= pages.length - 2);
-
-      lucide.createIcons();
-    }
-
-    // CONSTRUIR TABLA DE CONTENIDOS
-    function buildTOC() {
-      tocList.innerHTML = '';
-      if (toc.length === 0) {
-        tocList.innerHTML = '<p class="text-xs text-stone-400 py-4 text-center">No se detectaron secciones numeradas.</p>';
-        return;
-      }
-
-      toc.forEach((item, idx) => {
-        const el = document.createElement('div');
-        el.className = 'py-2.5 px-2 hover:bg-stone-800/60 rounded-lg cursor-pointer flex items-center justify-between text-xs transition group';
-        el.innerHTML = `
-          <span class="text-stone-300 group-hover:text-amber-400 font-medium truncate max-w-[320px]">${item.title}</span>
-          <span class="text-stone-500 text-[10px] bg-stone-950 px-2 py-0.5 rounded border border-stone-800">Ir a sección</span>
-        `;
-        el.onclick = () => {
-          // Buscar página asociada
-          let targetPage = pages.findIndex(p => p.title.includes(item.title) || item.title.includes(p.title));
-          if (targetPage !== -1) {
-            currentPageIndex = targetPage % 2 === 0 ? targetPage : targetPage - 1;
-            renderPages();
-          }
-          modalToc.classList.add('hidden');
-        };
-        tocList.appendChild(el);
-      });
-    }
-
-    // EVENT LISTENERS
-    function setupEventListeners() {
-      // Navegación
-      btnPrev.addEventListener('click', () => {
-        if (currentPageIndex > 0) {
-          currentPageIndex = Math.max(0, currentPageIndex - 2);
-          renderPages();
+      document.getElementById('btn-process-text').onclick = () => {
+        const txt = document.getElementById('input-text-area').value;
+        if (txt.trim()) {
+          processText(txt);
+          document.getElementById('modal-text').classList.add('hidden');
         }
-      });
+      };
 
-      btnNext.addEventListener('click', () => {
-        if (currentPageIndex < pages.length - 2) {
-          currentPageIndex += 2;
-          renderPages();
-        }
-      });
+      document.getElementById('btn-search-toggle').onclick = () => {
+        const bar = document.getElementById('search-bar');
+        bar.classList.toggle('hidden');
+      };
 
-      // Teclado
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') btnPrev.click();
-        if (e.key === 'ArrowRight') btnNext.click();
-      });
-
-      // Slider
-      pageSlider.addEventListener('input', (e) => {
-        let val = parseInt(e.target.value) - 1;
-        currentPageIndex = val % 2 === 0 ? val : val - 1;
-        renderPages();
-      });
-
-      // Cambio de Tamaño de Fuente
-      document.getElementById('btn-font-increase').addEventListener('click', () => {
-        if (fontSize < 140) {
-          fontSize += 10;
-          updateFontSize();
-        }
-      });
-
-      document.getElementById('btn-font-decrease').addEventListener('click', () => {
-        if (fontSize > 80) {
-          fontSize -= 10;
-          updateFontSize();
-        }
-      });
-
-      // Seleccionar Fuente
-      selectFontFamily.addEventListener('change', (e) => {
-        bookContainer.classList.remove('font-serif', 'font-classic', 'font-sans', 'font-dyslexic');
-        bookContainer.classList.add(`font-${e.target.value}`);
-      });
-
-      // Temas de Color
-      document.querySelectorAll('.theme-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const theme = btn.dataset.theme;
-          setTheme(theme);
-        });
-      });
-
-      // Modal Pegar Texto
-      btnOpenModal.addEventListener('click', () => {
-        inputTextArea.value = DEFAULT_TEXT;
-        modalText.classList.remove('hidden');
-      });
-
-      btnCloseModal.addEventListener('click', () => modalText.classList.add('hidden'));
-      btnCancelText.addEventListener('click', () => modalText.classList.add('hidden'));
-
-      btnLoadDefault.addEventListener('click', () => {
-        inputTextArea.value = DEFAULT_TEXT;
-      });
-
-      btnProcessText.addEventListener('click', () => {
-        const text = inputTextArea.value.trim();
-        if (text) {
-          processAndPaginateText(text);
-          modalText.classList.add('hidden');
-        }
-      });
-
-      // Modal TOC
-      btnToc.addEventListener('click', () => modalToc.classList.remove('hidden'));
-      btnCloseToc.addEventListener('click', () => modalToc.classList.add('hidden'));
-
-      // Buscador
-      btnSearchToggle.addEventListener('click', () => {
-        searchBar.classList.toggle('hidden');
-        if (!searchBar.classList.contains('hidden')) {
-          searchInput.focus();
-        }
-      });
-
-      searchInput.addEventListener('input', (e) => {
+      document.getElementById('search-input').oninput = (e) => {
         searchQuery = e.target.value;
-        if (searchQuery.trim().length > 2) {
-          let matches = 0;
-          pages.forEach(p => {
-            const matchesInPage = (p.html.match(new RegExp(escapeRegExp(searchQuery), 'gi')) || []).length;
-            matches += matchesInPage;
-          });
-          searchCount.textContent = `${matches} coincidencias`;
-        } else {
-          searchCount.textContent = '0 resultados';
-        }
-        renderPages();
-      });
-    }
-
-    function updateFontSize() {
-      fontSizeIndicator.textContent = `${fontSize}%`;
-      contentLeft.style.fontSize = `${fontSize / 100}rem`;
-      contentRight.style.fontSize = `${fontSize / 100}rem`;
-    }
-
-    function setTheme(theme) {
-      currentTheme = theme;
-      bookContainer.className = bookContainer.className.replace(/bg-\[\#[^\]]+\]/g, '').replace(/text-\[\#[^\]]+\]/g, '');
-      
-      if (theme === 'paper') {
-        bookContainer.style.backgroundColor = '#FDFBF7';
-        bookContainer.style.color = '#2C2A29';
-      } else if (theme === 'sepia') {
-        bookContainer.style.backgroundColor = '#F4ECD8';
-        bookContainer.style.color = '#3E2723';
-      } else if (theme === 'dark') {
-        bookContainer.style.backgroundColor = '#1E1E1E';
-        bookContainer.style.color = '#E2E8F0';
-      }
-    }
-
-    function escapeRegExp(string) {
-      return string.replace(/[.*+?^${}()|[\]\\]/gi, '\\$&');
+        renderCurrentPage();
+      };
     }
   </script>
 </body>
